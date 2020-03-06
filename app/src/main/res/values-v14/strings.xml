@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty_text">Kosong</string>
+    <string name="content_title">Catalog Movie</string>
+    <string name="content_text">Update movie baru</string>
+    <string name="subtext">Hari ini</string>
+    <string name="reease_reminder">Release Reminder</string>
+    <string name="daily_reminder">Daily Reminder</string>
+    <string name="set_reminder">Setting Reminder</string>
+</resources>

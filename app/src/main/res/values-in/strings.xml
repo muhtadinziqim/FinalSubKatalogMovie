@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Katalog Film Sub Akhir</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="tab_text_1">Film</string>
+    <string name="tab_text_2">Acara Tv</string>
+    <string name="judul">judul</string>
+    <string name="description">deskripsi</string>
+    <string name="change_language_settings">Ganti Bahasa</string>
+    <string name="favorite">Tambahkan Favorit</string>
+    <string name="menu_fav_tvshow">Acara Tv Favorit</string>
+    <string name="menu_fav_movie">Film Favorit</string>
+
+    <string name="api_movie">3/discover/movie?api_key=e5ffacd3e2daf66fcfe8be92718237f5&amp;language=en-US</string>
+    <string name="hapus_fav">Hapus</string>
+    <string name="search">Cari</string>
+    <string name="search_hint">Tulis Judul</string>
+    <string name="appwidget_text">FILM BANNER</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_text">Kosong</string>
+    <string name="content_title">Catalog Movie</string>
+    <string name="content_text">Update movie baru</string>
+    <string name="subtext">Hari ini</string>
+    <string name="reease_reminder">Release Reminder</string>
+    <string name="daily_reminder">Daily Reminder</string>
+    <string name="set_reminder">Setting Reminder</string>
+
+</resources>

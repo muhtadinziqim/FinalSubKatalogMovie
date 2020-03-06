@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Favorit Movie</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="tab_text_1">Movie</string>
+    <string name="tab_text_2">Tv Show</string>
+    <string name="judul">judul</string>
+    <string name="description">deskripsi</string>
+    <string name="change_language_settings">Change Language</string>
+    <string name="api_movie">3/discover/movie?api_key=e5ffacd3e2daf66fcfe8be92718237f5&amp;language=en-US</string>
+    <string name="favorite">Set Favorite</string>
+    <string name="menu_fav_tvshow">Favorite Tv Show</string>
+    <string name="menu_fav_movie">Favorite Movie</string>
+    <string name="hapus_fav">Delete</string>
+    <string name="search">search</string>
+    <string name="search_hint">Tulis Judul</string>
+    <string name="appwidget_text">FILM BANNER</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_text">Kosong</string>
+    <string name="content_title">Catalog Movie</string>
+    <string name="content_text">Update movie baru</string>
+    <string name="subtext">Hari ini</string>
+</resources>
