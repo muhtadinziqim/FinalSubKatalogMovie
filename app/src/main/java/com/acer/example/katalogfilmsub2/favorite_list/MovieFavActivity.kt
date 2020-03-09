@@ -2,7 +2,7 @@ package com.acer.example.katalogfilmsub2.favorite_list
 
 import android.content.Intent
 import android.database.ContentObserver
-import android.media.tv.TvContract.Channels.CONTENT_URI
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.acer.example.katalogfilmsub2.*
 import com.acer.example.katalogfilmsub2.adapter.MovieFavAdapter
+import com.acer.example.katalogfilmsub2.db.DatabaseContract.FavColumns.Companion.CONTENT_URI
 import com.acer.example.katalogfilmsub2.db.DatabaseHelper
 import com.acer.example.katalogfilmsub2.db.FavHelper
 import com.acer.example.katalogfilmsub2.helper.MappingHelper
@@ -104,10 +105,11 @@ class MovieFavActivity : AppCompatActivity() {
     private fun loadMovieAsync() {
         GlobalScope.launch(Dispatchers.Main) {
    //         progressbar.visibility = View.VISIBLE
+            val contenUri = Uri.parse(CONTENT_URI.toString() + "/" + "Movie")
             val deferredNotes = async(Dispatchers.IO) {
-                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null)
-                val cursor2 = favHelper.queryByCat("Movie")
-                MappingHelper.mapCursorToArrayList(cursor2)
+                val cursor = contentResolver.query(contenUri, null, null, null, null)
+//                val cursor2 = favHelper.queryByCat("Movie")
+                MappingHelper.mapCursorToArrayList(cursor)
 
             }
     //        progressbar.visibility = View.INVISIBLE

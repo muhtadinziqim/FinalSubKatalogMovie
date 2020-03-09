@@ -20,12 +20,14 @@ object DatabaseContract {
             const val POSTER = "poster"
             const val KATEGORI = "kategori"
             const val DATABASE_VERSION = 1
+
+            val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
+                .authority(AUTHORITY)
+                .appendPath(TABLE_NAME)
+                .build()
         }
 
-        val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
-            .authority(AUTHORITY)
-            .appendPath(TABLE_NAME)
-            .build()
+
     }
 
 }

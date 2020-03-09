@@ -253,10 +253,16 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setAutoCancel(true)
         } else {
             val inboxStyle = NotificationCompat.InboxStyle()
-                .addLine("New Movie " + listItems[i - 1].judul)
-                .addLine("New Movie " + listItems[i - 2].judul)
+//                .addLine("New Movie " + listItems[i - 1].judul)
+//                .addLine("New Movie " + listItems[i - 2].judul)
                 .setBigContentTitle("$i new movie")
                 .setSummaryText("Katalog Movie")
+            var j = i;
+            var k = j;
+            repeat(j){
+                --k;
+                inboxStyle.addLine("New Movie "+ listItems[k].judul)
+            }
             mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle("$i new movie")
                 .setContentText("Katalog Movie")

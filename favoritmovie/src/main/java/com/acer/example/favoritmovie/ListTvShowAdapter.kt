@@ -23,6 +23,15 @@ class ListTvShowAdapter(): RecyclerView.Adapter<ListTvShowAdapter.ListViewHolder
             notifyDataSetChanged()
         }
 
+    var listTvShow = ArrayList<TvShow>()
+        set(listTvShow) {
+            if (listTvShow.size > 0) {
+                this.listTvShow.clear()
+            }
+            this.listTvShow.addAll(listTvShow)
+            notifyDataSetChanged()
+        }
+
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }

@@ -29,7 +29,7 @@ import com.acer.example.favoritmovie.DatabaseContract.FavColumns.Companion.CONTE
  */
 class MoviesFragment : Fragment() {
 
-    private val list = ArrayList<Movie>()
+    private var list = ArrayList<Movie>()
     private lateinit var uriWithCat: Uri
 
     private lateinit var adapter: MovieAdapter
@@ -62,8 +62,10 @@ class MoviesFragment : Fragment() {
             loadNotesAsync(contentResolver, uriWithCat)
         } else {
             val list = savedInstanceState.getParcelableArrayList<Movie>(EXTRA_STATE)
+//            Log.d("abogobofa", list.toString())
             if (list != null) {
-                adapter.listNotes = list
+                adapter.setData(list)
+                adapter.listMovie = list
             }
         }
     }
@@ -88,7 +90,7 @@ class MoviesFragment : Fragment() {
             }
         }
 
-        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+        contentResolver.registerContentObserver(uriWithCat, true, myObserver)
 
         adapter.setOnItemClickCallback(object : MovieAdapter.OnItemClickCallback{
             override fun onItemClicked(data: Movie) {
@@ -124,17 +126,19 @@ class MoviesFragment : Fragment() {
             val notes = deferredNotes.await()
             progressBar.visibility = View.INVISIBLE
             if (notes.size > 0) {
-                adapter.listNotes = notes
+                adapter.setData(notes)
+                adapter.listMovie = notes
+//                Log.d("not", ">0")
             } else {
-                adapter.listNotes = ArrayList()
+                adapter.listMovie = ArrayList()
             }
-            Log.d("list", notes.toString())
+//            Log.d("list", notes.toString())
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList(EXTRA_STATE, adapter.listNotes)
+        outState.putParcelableArrayList(EXTRA_STATE, adapter.listMovie)
     }
 
 }

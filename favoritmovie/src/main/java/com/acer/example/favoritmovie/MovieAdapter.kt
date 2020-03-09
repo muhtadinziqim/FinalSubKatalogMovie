@@ -20,6 +20,15 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
             notifyDataSetChanged()
         }
 
+    var listMovie = ArrayList<Movie>()
+        set(listMovie) {
+            if (listMovie.size > 0) {
+                this.listMovie.clear()
+            }
+            this.listMovie.addAll(listMovie)
+            notifyDataSetChanged()
+        }
+
     private var onItemClickCallback: MovieAdapter.OnItemClickCallback? = null
 
     fun setOnItemClickCallback(onItemClickCallback: MovieAdapter.OnItemClickCallback) {

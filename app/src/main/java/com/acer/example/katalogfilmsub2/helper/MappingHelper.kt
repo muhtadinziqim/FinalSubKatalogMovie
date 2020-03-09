@@ -11,7 +11,7 @@ import com.acer.example.katalogfilmsub2.db.DatabaseContract.FavColumns.Companion
 
 object MappingHelper {
 
-    fun mapCursorToArrayList(notesCursor: Cursor): ArrayList<Movie> {
+    fun mapCursorToArrayList(notesCursor: Cursor?): ArrayList<Movie> {
         val notesList = ArrayList<Movie>()
         notesCursor?.apply {
             while (moveToNext()) {

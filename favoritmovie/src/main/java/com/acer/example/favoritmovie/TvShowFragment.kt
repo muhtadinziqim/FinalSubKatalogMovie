@@ -63,8 +63,10 @@ class TvShowFragment : Fragment() {
             loadNotesAsync(contentResolver, uriWithCat)
         } else {
             val list = savedInstanceState.getParcelableArrayList<TvShow>(EXTRA_STATE)
+            Log.d("adsasa", list.toString())
             if (list != null) {
-                adapter.listNotes = list
+                adapter.setData(list)
+                adapter.listTvShow = list
             }
         }
 
@@ -89,7 +91,7 @@ class TvShowFragment : Fragment() {
             }
         }
 
-        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+        contentResolver.registerContentObserver(uri, true, myObserver)
 
 
         adapter.setOnItemClickCallback(object : ListTvShowAdapter.OnItemClickCallback{
@@ -127,12 +129,18 @@ class TvShowFragment : Fragment() {
             val notes = deferredNotes.await()
             progressBar.visibility = View.INVISIBLE
             if (notes.size > 0) {
-                adapter.listNotes = notes
+                adapter.setData(notes)
+                adapter.listTvShow = notes
             } else {
-                adapter.listNotes = ArrayList()
+                adapter.listTvShow = ArrayList()
             }
-            Log.d("list", notes.toString())
+//            Log.d("list", notes.toString())
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(EXTRA_STATE, adapter.listTvShow)
     }
 
 }
