@@ -8,9 +8,9 @@ import com.acer.example.favoritmovie.DatabaseContract.FavColumns.Companion._ID
 
 object MappingHelper {
 
-    fun mapCursorToArrayList(notesCursor: Cursor): ArrayList<Movie> {
+    fun mapCursorToArrayList(notesCursor: Cursor?): ArrayList<Movie> {
         val notesList = ArrayList<Movie>()
-        notesCursor.apply {
+        notesCursor?.apply {
             while (moveToNext()) {
                 val id = getInt(getColumnIndexOrThrow(_ID))
                 val judul = getString(getColumnIndexOrThrow(JUDUL))
@@ -22,7 +22,7 @@ object MappingHelper {
         return notesList
     }
 
-    fun mapCursorToArrayListTvShow(notesCursor: Cursor): ArrayList<TvShow> {
+    fun mapCursorToArrayListTvShow(notesCursor: Cursor?): ArrayList<TvShow> {
         val notesList = ArrayList<TvShow>()
         notesCursor?.apply {
             while (moveToNext()) {

@@ -5,9 +5,11 @@ import android.content.Intent
 import android.content.ContentResolver
 import android.database.ContentObserver
 import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +30,7 @@ import com.acer.example.favoritmovie.DatabaseContract.FavColumns.Companion.CONTE
 class MoviesFragment : Fragment() {
 
     private val list = ArrayList<Movie>()
-
+    private lateinit var uriWithCat: Uri
 
     private lateinit var adapter: MovieAdapter
     companion object {
@@ -52,11 +54,12 @@ class MoviesFragment : Fragment() {
         rv_movies.setHasFixedSize(true)
 
         val contentResolver = activity!!.contentResolver
+        uriWithCat = Uri.parse(CONTENT_URI.toString() + "/" + "Movie")
 //        list.addAll(getListMovies())
-        showRecyclerList(contentResolver)
+        showRecyclerList(contentResolver, uriWithCat)
 
         if (savedInstanceState == null) {
-            loadNotesAsync(contentResolver)
+            loadNotesAsync(contentResolver, uriWithCat)
         } else {
             val list = savedInstanceState.getParcelableArrayList<Movie>(EXTRA_STATE)
             if (list != null) {
@@ -66,7 +69,7 @@ class MoviesFragment : Fragment() {
     }
 
 //
-    private fun showRecyclerList(contentResolver: ContentResolver) {
+    private fun showRecyclerList(contentResolver: ContentResolver, uriWithCat: Uri) {
 
         adapter = MovieAdapter()
         adapter.notifyDataSetChanged()
@@ -81,7 +84,7 @@ class MoviesFragment : Fragment() {
         val handler = Handler(handlerThread.looper)
         val myObserver = object : ContentObserver(handler) {
             override fun onChange(self: Boolean) {
-                loadNotesAsync(contentResolver)
+                loadNotesAsync(contentResolver, uriWithCat)
             }
         }
 
@@ -111,11 +114,11 @@ class MoviesFragment : Fragment() {
         }
     }
 
-    private fun loadNotesAsync(contentResolver: ContentResolver) {
+    private fun loadNotesAsync(contentResolver: ContentResolver, uri: Uri) {
         GlobalScope.launch(Dispatchers.Main) {
             progressBar.visibility = View.VISIBLE
             val deferredNotes = async(Dispatchers.IO) {
-                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null) as Cursor
+                val cursor = contentResolver.query(uri, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             val notes = deferredNotes.await()
@@ -125,6 +128,7 @@ class MoviesFragment : Fragment() {
             } else {
                 adapter.listNotes = ArrayList()
             }
+            Log.d("list", notes.toString())
         }
     }
 

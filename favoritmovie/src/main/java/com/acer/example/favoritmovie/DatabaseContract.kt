@@ -8,7 +8,7 @@ import android.service.notification.Condition.SCHEME
 object DatabaseContract {
 
     const val SCHEME = "content"
-    const val AUTHORITY = "com.dicoding.picodiploma.katalogfilmsub2"
+    const val AUTHORITY = "com.acer.example.katalogfilmsub2"
 
     internal class FavColumns : BaseColumns {
         companion object {
@@ -24,7 +24,6 @@ object DatabaseContract {
                 .authority(AUTHORITY)
                 .appendPath(TABLE_NAME)
                 .build()
-
         }
 
 

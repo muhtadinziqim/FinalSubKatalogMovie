@@ -3,8 +3,8 @@
     package="com.acer.example.favoritmovie">
 
     <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA" />
-    <uses-permission android:name="com.dicoding.picodiploma.katalogfilmsub2.READ_DATABASE" />
-    <uses-permission android:name="com.dicoding.picodiploma.katalogfilmsub2_DATABASE" />
+    <uses-permission android:name="com.acer.example.katalogfilmsub2.READ_DATABASE" />
+    <uses-permission android:name="com.acer.example.katalogfilmsub2.WRITE_DATABASE" />
 
     <application
         android:allowBackup="true"

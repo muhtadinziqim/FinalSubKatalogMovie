@@ -5,7 +5,11 @@ import android.net.Uri
 import android.provider.BaseColumns
 import android.service.notification.Condition.SCHEME
 
-internal class DatabaseContract {
+object DatabaseContract {
+
+
+    const val SCHEME = "content"
+    const val AUTHORITY = "com.acer.example.katalogfilmsub2"
 
     internal class FavColumns : BaseColumns {
         companion object {
@@ -24,8 +28,4 @@ internal class DatabaseContract {
             .build()
     }
 
-    companion object {
-        const val SCHEME = "content"
-        const val AUTHORITY = "com.dicoding.picodiploma.mynotesapp"
-    }
 }

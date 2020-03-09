@@ -16,6 +16,13 @@ class ListTvShowAdapter(): RecyclerView.Adapter<ListTvShowAdapter.ListViewHolder
 
     private var onItemClickCallback: OnItemClickCallback? = null
 
+    var listNotes = java.util.ArrayList<TvShow>()
+        set(listNotes) {
+            this.listNotes.clear()
+            this.listNotes.addAll(listNotes)
+            notifyDataSetChanged()
+        }
+
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }

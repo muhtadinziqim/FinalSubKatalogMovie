@@ -7,7 +7,7 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.media.tv.TvContract.Channels.CONTENT_URI
 import android.net.Uri
-import com.acer.example.katalogfilmsub2.db.DatabaseContract.Companion.AUTHORITY
+import com.acer.example.katalogfilmsub2.db.DatabaseContract.AUTHORITY
 import com.acer.example.katalogfilmsub2.db.DatabaseContract.FavColumns.Companion.TABLE_NAME
 import com.acer.example.katalogfilmsub2.db.FavHelper
 
@@ -37,7 +37,7 @@ class FavoritProvider : ContentProvider() {
         val cursor: Cursor?
         when (sUriMatcher.match(uri)) {
             NOTE -> cursor = favHelper.queryAll()
-            NOTE_ID -> cursor = favHelper.queryById(uri.lastPathSegment.toString())
+            NOTE_ID -> cursor = favHelper.queryByCat(uri.lastPathSegment.toString())
             else -> cursor = null
         }
         return cursor

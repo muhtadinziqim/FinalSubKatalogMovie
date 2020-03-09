@@ -2,9 +2,14 @@ package com.acer.example.favoritmovie
 
 
 import android.app.SearchManager
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.database.ContentObserver
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.provider.Settings
 import android.util.Log
 import android.view.*
@@ -15,8 +20,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.acer.example.favoritmovie.DatabaseContract.FavColumns.Companion.CONTENT_URI
 import com.acer.example.katalogfilmsub2.DetailTvShowActivity
 import kotlinx.android.synthetic.main.fragment_tv_show.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 /**
@@ -25,8 +35,12 @@ import kotlinx.android.synthetic.main.fragment_tv_show.*
 class TvShowFragment : Fragment() {
 
     private val list = ArrayList<TvShow>()
+    private lateinit var uriWithCat: Uri
 
     private lateinit var adapter: ListTvShowAdapter
+    companion object {
+        private const val EXTRA_STATE = "EXTRA_STATE"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,13 +54,24 @@ class TvShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rv_tv_show.setHasFixedSize(true)
-        setHasOptionsMenu(true);
-        showRecyclerList()
+        val contentResolver = activity!!.contentResolver
+        uriWithCat = Uri.parse(CONTENT_URI.toString() + "/" + "TvShow")
+//        list.addAll(getListMovies())
+        showRecyclerList(contentResolver, uriWithCat)
+
+        if (savedInstanceState == null) {
+            loadNotesAsync(contentResolver, uriWithCat)
+        } else {
+            val list = savedInstanceState.getParcelableArrayList<TvShow>(EXTRA_STATE)
+            if (list != null) {
+                adapter.listNotes = list
+            }
+        }
 
     }
 
 
-    private fun showRecyclerList() {
+    private fun showRecyclerList(contentResolver: ContentResolver, uri: Uri) {
 
         adapter = ListTvShowAdapter()
         adapter.notifyDataSetChanged()
@@ -55,8 +80,19 @@ class TvShowFragment : Fragment() {
         rv_tv_show.adapter = adapter
 
 //      Load data
+        val handlerThread = HandlerThread("DataObserver")
+        handlerThread.start()
+        val handler = Handler(handlerThread.looper)
+        val myObserver = object : ContentObserver(handler) {
+            override fun onChange(self: Boolean) {
+                loadNotesAsync(contentResolver, uri)
+            }
+        }
 
-       adapter.setOnItemClickCallback(object : ListTvShowAdapter.OnItemClickCallback{
+        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+
+
+        adapter.setOnItemClickCallback(object : ListTvShowAdapter.OnItemClickCallback{
             override fun onItemClicked(data: TvShow) {
                 showSelectedTvShow(data)
             }
@@ -77,6 +113,25 @@ class TvShowFragment : Fragment() {
             progressBar.visibility = View.VISIBLE
         }else{
             progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun loadNotesAsync(contentResolver: ContentResolver, uri: Uri) {
+        GlobalScope.launch(Dispatchers.Main) {
+            progressBar.visibility = View.VISIBLE
+            val deferredNotes = async(Dispatchers.IO) {
+                val cursor = contentResolver.query(uri, null, null, null, null)
+                Log.d("Uri", uri.toString())
+                MappingHelper.mapCursorToArrayListTvShow(cursor)
+            }
+            val notes = deferredNotes.await()
+            progressBar.visibility = View.INVISIBLE
+            if (notes.size > 0) {
+                adapter.listNotes = notes
+            } else {
+                adapter.listNotes = ArrayList()
+            }
+            Log.d("list", notes.toString())
         }
     }
 
